@@ -1,0 +1,190 @@
+<!-- Word scramble game in pure HTML CSS JS Made by Nehali Jaiswal -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Word Scramble Game</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+    <style>
+        *{
+    font-family: poppins;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    background: #1bb295;
+}
+.wrapper{
+    width: 450px;
+    border-radius: 7px;
+    background: #fff;
+}
+.wrapper h2{
+    font-size: 25px;
+    font-weight: 600;
+    padding: 18px 25px;
+    border-bottom: 1px solid #ccc;
+}
+.wrapper .data{
+    margin: 25px 20px 35px;
+}
+.data .word{
+    font-size: 33px;
+    font-weight: 500;
+    text-align: center;
+    letter-spacing: 24px;
+    text-transform: uppercase;
+    margin-right: -24px;
+}
+.data .details{
+    margin: 25px 0 20px;
+}
+.details p{
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+.details p b{
+    font-weight: 600;
+}
+.data input{
+    width: 100%;
+    height: 60px;
+    outline: none;
+    padding: 0 16px;
+    border: 1px solid #aaa;
+    border-radius: 5px;
+    font-size: 18px;
+}
+.data .buttons{
+    display: flex;
+    margin-top: 20px;
+    justify-content: space-between;
+}
+.buttons button{
+    border: none;
+    outline: none;
+    color: #fff;
+    cursor: pointer;
+    width: calc(100% / 2 - 8px);
+    padding: 15px 0;
+    font-size: 17px;
+    border-radius: 5px;
+}
+.buttons .refresh-word{
+    background: #6c757d;
+}
+.buttons .check-word{
+    background: #1bb295;
+}
+    </style>
+
+</head>
+<body>
+
+    <div class="wrapper">
+        <h2>Word Scramble Game</h2>
+        <div class="data">
+            <p class="word"></p>
+            <div class="details">
+                <p class="hint">Hint: <span></span></p>
+                <!-- <p class="time">Time Left: <span><b>30</b></span></p> -->
+            </div>
+            <input type="text" placeholder="Enter valid Word">
+            <div class="buttons">
+                <button class="refresh-word">Refresh Word</button>
+                <button class="check-word">Check Word</button>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        const words = [
+    {
+        word: "pocket",
+        hint: "A bag for carrying small things"
+    },
+    {
+        word: "needle",
+        hint: "A thin & sharp metal pin"
+    },
+    {
+        word: "expert",
+        hint: "Person with extensive knowledge"
+    },
+    {
+        word: "statement",
+        hint: "A declaration of something"
+    },
+    {
+        word: "library",
+        hint: "Place containing collection of books"
+    },
+    {
+        word: "second",
+        hint: "It comes after first"
+    },
+    {
+        word: "mobile",
+        hint: "They are also called as movable species"
+    },
+    {
+        word: "laptop",
+        hint: "A device used to code program"
+    },
+    {
+        word: "addition",
+        hint: "The process of adding numbers"
+    },
+    {
+        word: "number",
+        hint: "Math symbols used for counting"
+    },
+]
+
+const wordText = document.querySelector(".word"),
+hintText = document.querySelector(".hint span"),
+inputField = document.querySelector("input");
+const refreshBtn = document.querySelector(".refresh-word"),
+checkBtn = document.querySelector(".check-word");
+let correctWord;
+
+const initGame = () =>{
+    let randomObj = words[Math.floor(Math.random() * words.length)];
+    let wordArray = randomObj.word.split("");
+    for(let i = wordArray.length - 1; i > 0; i--){
+        let j = Math.floor(Math.random() * (i + 1));
+        [wordArray[i], wordArray[j]] = [wordArray[j], wordArray[i]];
+    }
+    wordText.innerText = wordArray.join("");
+    hintText.innerText = randomObj.hint;
+    correctWord = randomObj.word.toLowerCase();
+    inputField.value="";
+    inputField.setAttribute("maxlength", correctWord.length);
+    console.log(randomObj);
+}
+
+const checkword = ()=>{
+    let userWord = inputField.value.toLocaleLowerCase();
+    if (!userWord) return alert("Please enter a correct word.");
+    if(userWord !== correctWord) return alert(`Oops! ${userWord} is not a correct word.`);
+    else alert(`Congrats! ${userWord} is a correct word.`);
+    initGame();
+}
+
+initGame();
+
+refreshBtn.addEventListener("click", initGame);
+checkBtn.addEventListener("click", checkword);
+    </script>
+</body>
+</html>
